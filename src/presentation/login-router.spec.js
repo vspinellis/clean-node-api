@@ -1,12 +1,13 @@
 const { LoginRouter } = require('./login-router')
 
+const { AuthUseCase } = require('../domain/usecases/auth-usecase')
+jest.mock('../domain/usecases/auth-usecase.js')
+
 describe('Login Router', () => {
   let sut
   let authUseCaseSpy
   beforeEach(() => {
-    authUseCaseSpy = {
-      auth: jest.fn()
-    }
+    authUseCaseSpy = new AuthUseCase()
     sut = new LoginRouter(authUseCaseSpy)
   })
 
@@ -41,5 +42,42 @@ describe('Login Router', () => {
     const httpResponse = sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(401)
     expect(httpResponse.body).toBe('Login ou senha inválidos')
+  })
+
+  test('deve retornar 200 se o authUseCase for chamado com os parametros corretos', () => {
+    authUseCaseSpy.auth.mockImplementation(() => Promise.resolve('123123213'))
+    const httpRequest = {
+      body: {
+        email: 'valid_email@mail.com',
+        password: 'password_valid'
+      }
+    }
+    const httpResponse = sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse.body).toHaveProperty('accessToken')
+  })
+
+  test('deve retornar 500 se o AuthUseCase n"ao for fornecido', () => {
+    const sut = new LoginRouter()
+    const httpRequest = {
+      body: {
+        email: 'valid_email@mail.com',
+        password: 'password_valid'
+      }
+    }
+    const httpResponse = sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+  })
+
+  test('deve retornar 500 se o AuthUseCase.auth n"ao for fornecido', () => {
+    const sut = new LoginRouter({})
+    const httpRequest = {
+      body: {
+        email: 'valid_email@mail.com',
+        password: 'password_valid'
+      }
+    }
+    const httpResponse = sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
   })
 })
