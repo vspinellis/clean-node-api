@@ -8,17 +8,17 @@ class LoginRouter {
   }
 
   route (httpRequest) {
-    if (!httpRequest || !httpRequest.body || !this.authUseCase || !this.authUseCase.auth) {
+    try {
+      const { email, password } = httpRequest.body
+      const accessToken = this.authUseCase.auth(email, password)
+      if (!accessToken) {
+        return unauthorizedError('Login ou senha inválidos')
+      }
+
+      return ok({ accessToken })
+    } catch (error) {
       return serverError()
     }
-    const { email, password } = httpRequest.body
-    const accessToken = this.authUseCase.auth(email, password)
-    console.log(accessToken)
-    if (!accessToken) {
-      return unauthorizedError('Login ou senha inválidos')
-    }
-
-    return ok({ accessToken })
   }
 }
 
