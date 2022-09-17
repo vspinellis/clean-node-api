@@ -1,4 +1,5 @@
 const { serverError } = require('./helpers/server-error')
+const { unauthorizedError } = require('./helpers/unauthorized-error')
 
 class LoginRouter {
   constructor (authUseCase) {
@@ -11,6 +12,7 @@ class LoginRouter {
     }
     const { email, password } = httpRequest.body
     this.authUseCase.auth(email, password)
+    return unauthorizedError('Login ou senha inválidos')
   }
 }
 

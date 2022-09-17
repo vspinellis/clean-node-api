@@ -30,4 +30,16 @@ describe('Login Router', () => {
     sut.route(httpRequest)
     expect(authUseCaseSpy.auth).toHaveBeenCalledWith(httpRequest.body.email, httpRequest.body.password)
   })
+
+  test('deve retornar 401 se o authUseCase for chamado com os parametros incorretos', () => {
+    const httpRequest = {
+      body: {
+        email: 'invalid_email@mail.com',
+        password: 'password_invalid'
+      }
+    }
+    const httpResponse = sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(401)
+    expect(httpResponse.body).toBe('Login ou senha inválidos')
+  })
 })
