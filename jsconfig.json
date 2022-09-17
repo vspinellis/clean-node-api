@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "checkJs": true,
+    "module": "CommonJS",
+    "paths": {
+      "src/*": ["./src/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
