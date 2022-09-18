@@ -1,5 +1,9 @@
 class AuthUseCase {
-  async auth () {}
+  async auth (email, password) {
+    if (!email) {
+      throw new Error()
+    }
+  }
 }
 
 module.exports = {
