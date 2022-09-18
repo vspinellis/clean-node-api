@@ -1,5 +1,5 @@
 class AuthUseCase {
-  auth () {}
+  async auth () {}
 }
 
 module.exports = {
