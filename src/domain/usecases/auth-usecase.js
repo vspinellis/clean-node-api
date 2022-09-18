@@ -14,16 +14,11 @@ class AuthUseCase {
       throw new MissingParamError('password')
     }
 
-    if (!this.loadUserByEmailRepository) {
-      throw new MissingParamError('loadUserByEmailRepository')
+    const checkEmailExists = await this.loadUserByEmailRepository.load(email)
+    if (!checkEmailExists) {
+      return null
     }
-
-    if (!this.loadUserByEmailRepository.load) {
-      throw new MissingParamError('loadUserByEmailRepository.load')
-    }
-
-    const accessToken = await this.loadUserByEmailRepository.load(email)
-    return accessToken
+    return null
   }
 }
 

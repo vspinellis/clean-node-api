@@ -26,17 +26,23 @@ describe('Auth UseCase', () => {
 
   test('deve retornar uma exceção se LoadUserByEmailRepository nao for passado', async () => {
     sut = new AuthUseCase()
-    await expect(() => sut.auth('valid_mail', 'valid_password')).rejects.toThrow(new MissingParamError('loadUserByEmailRepository'))
+    await expect(() => sut.auth('valid_mail', 'valid_password')).rejects.toThrow(/* new MissingParamError('loadUserByEmailRepository' ) */)
   })
 
   test('deve retornar uma exceção se LoadUserByEmailRepository.load nao for passado', async () => {
     sut = new AuthUseCase({})
-    await expect(() => sut.auth('valid_mail', 'valid_password')).rejects.toThrow(new MissingParamError('loadUserByEmailRepository.load'))
+    await expect(() => sut.auth('valid_mail', 'valid_password')).rejects.toThrow(/* new MissingParamError('loadUserByEmailRepository.load') */)
   })
 
-  test('deve retornar null if LoadUserByEmailRepository.load retorne null', async () => {
+  test('deve retornar null se email nao for encontrado', async () => {
     loadUserByEmailRepositorySpy.load.mockReturnValueOnce(null)
-    const accessToken = await sut.auth('invalid_mail', 'invalid_password')
+    const accessToken = await sut.auth('invalid_mail', 'any_password')
+    expect(accessToken).toBe(null)
+  })
+
+  test('deve retornar null se senha não estiver correta', async () => {
+    loadUserByEmailRepositorySpy.load.mockReturnValueOnce({})
+    const accessToken = await sut.auth('any_mail', 'invalid_password')
     expect(accessToken).toBe(null)
   })
 })
