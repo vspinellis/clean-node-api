@@ -3,8 +3,8 @@ const { LoginRouter } = require('./login-router')
 const { AuthUseCase } = require('../domain/usecases/auth-usecase')
 jest.mock('../domain/usecases/auth-usecase.js')
 
-const { EmailValidator } = require('./helpers/validators/email-validator')
-jest.mock('./helpers/validators/email-validator.js')
+const { EmailValidator } = require('../utils/validators/email-validator')
+jest.mock('../utils/validators/email-validator.js')
 
 describe('Login Router', () => {
   let sut

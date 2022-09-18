@@ -1,4 +1,4 @@
-const badRequest = (message) => {
+const badRequestError = (message) => {
   return {
     statusCode: 400,
     body: message
@@ -6,5 +6,5 @@ const badRequest = (message) => {
 }
 
 module.exports = {
-  badRequest
+  badRequestError
 }

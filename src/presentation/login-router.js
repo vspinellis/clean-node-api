@@ -1,7 +1,4 @@
-const { badRequest } = require('./helpers/errors/bad-request-error')
-const { ok } = require('./helpers/errors/ok')
-const { serverError } = require('./helpers/errors/server-error')
-const { unauthorizedError } = require('./helpers/errors/unauthorized-error')
+const { badRequestError, ok, serverError, unauthorizedError } = require('./helpers/errors')
 
 class LoginRouter {
   constructor (authUseCase, emailValidator) {
@@ -13,7 +10,7 @@ class LoginRouter {
     try {
       const { email, password } = httpRequest.body
       if (!this.emailValidator.isValid(email)) {
-        return badRequest('Email inválido')
+        return badRequestError('Email inválido')
       }
       const accessToken = await this.authUseCase.auth(email, password)
       if (!accessToken) {
