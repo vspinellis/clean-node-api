@@ -23,4 +23,20 @@ describe('Auth UseCase', () => {
     await sut.auth('valid_mail', 'valid_password')
     expect(loadUserByEmailRepositorySpy.load).toHaveBeenCalledWith('valid_mail')
   })
+
+  test('deve retornar uma exceção se LoadUserByEmailRepository nao for passado', async () => {
+    sut = new AuthUseCase()
+    await expect(() => sut.auth('valid_mail', 'valid_password')).rejects.toThrow(new MissingParamError('loadUserByEmailRepository'))
+  })
+
+  test('deve retornar uma exceção se LoadUserByEmailRepository.load nao for passado', async () => {
+    sut = new AuthUseCase({})
+    await expect(() => sut.auth('valid_mail', 'valid_password')).rejects.toThrow(new MissingParamError('loadUserByEmailRepository.load'))
+  })
+
+  test('deve retornar null if LoadUserByEmailRepository.load retorne null', async () => {
+    loadUserByEmailRepositorySpy.load.mockReturnValueOnce(null)
+    const accessToken = await sut.auth('invalid_mail', 'invalid_password')
+    expect(accessToken).toBe(null)
+  })
 })
