@@ -19,7 +19,7 @@ describe('Auth UseCase', () => {
     loadUserByEmailRepositorySpy = new LoadUserByEmailRepository()
     encrypterSpy = new Encrypter()
     tokenGeneratorSpy = new TokenGenerator()
-    sut = new AuthUseCase(loadUserByEmailRepositorySpy, encrypterSpy, tokenGeneratorSpy)
+    sut = new AuthUseCase({ loadUserByEmailRepository: loadUserByEmailRepositorySpy, encrypter: encrypterSpy, tokenGenerator: tokenGeneratorSpy })
   })
   test('deve lançar um erro MissingParamError se o email nao for fornecido', async () => {
     await expect(() => sut.auth()).rejects.toThrow(new MissingParamError('email'))
@@ -35,12 +35,12 @@ describe('Auth UseCase', () => {
   })
 
   test('deve retornar uma exceção se LoadUserByEmailRepository nao for passado', async () => {
-    sut = new AuthUseCase()
+    sut = new AuthUseCase({})
     await expect(() => sut.auth('valid_mail', 'valid_password')).rejects.toThrow(/* new MissingParamError('loadUserByEmailRepository' ) */)
   })
 
   test('deve retornar uma exceção se LoadUserByEmailRepository.load nao for passado', async () => {
-    sut = new AuthUseCase({})
+    sut = new AuthUseCase({ loadUserByEmailRepository: {} })
     await expect(() => sut.auth('valid_mail', 'valid_password')).rejects.toThrow(/* new MissingParamError('loadUserByEmailRepository.load') */)
   })
 
