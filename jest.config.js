@@ -1,3 +1,6 @@
 module.exports = {
-  testMatch: ['**/*.spec.js']
+  testMatch: ['**/*.spec.js'],
+  moduleNameMapper: {
+    'src/(.*)': '<rootDir>/src/$1'
+  }
 }

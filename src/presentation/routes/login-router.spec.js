@@ -1,10 +1,9 @@
+const { AuthUseCase } = require('src/domain/usecases/auth-usecase')
+const { EmailValidator } = require('src/utils/validators/email-validator')
 const { LoginRouter } = require('./login-router')
 
-const { AuthUseCase } = require('../domain/usecases/auth-usecase')
-jest.mock('../domain/usecases/auth-usecase.js')
-
-const { EmailValidator } = require('../utils/validators/email-validator')
-jest.mock('../utils/validators/email-validator.js')
+jest.mock('src/domain/usecases/auth-usecase')
+jest.mock('src/utils/validators/email-validator')
 
 describe('Login Router', () => {
   let sut

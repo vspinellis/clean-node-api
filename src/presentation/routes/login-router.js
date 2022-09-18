@@ -1,4 +1,4 @@
-const { badRequestError, ok, serverError, unauthorizedError } = require('./helpers/errors')
+const { badRequestError, ok, serverError, unauthorizedError } = require('../errors')
 
 class LoginRouter {
   constructor (authUseCase, emailValidator) {

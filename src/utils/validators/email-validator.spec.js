@@ -1,5 +1,6 @@
-jest.mock('./email-validator.js')
 const { EmailValidator } = require('./email-validator')
+
+jest.mock('./email-validator.js')
 
 describe('Email Validator', () => {
   let sut
