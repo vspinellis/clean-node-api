@@ -1,7 +1,7 @@
 const { MissingParamError } = require('../../utils/errors')
 const { AuthUseCase } = require('./auth-usecase')
 
-const { LoadUserByEmailRepository } = require('src/infra/repositories/LoadUserBeEmailRepository')
+const { LoadUserByEmailRepository } = require('src/infra/repositories/load-user-by-email-repository')
 jest.mock('src/infra/repositories/LoadUserBeEmailRepository')
 
 const { Encrypter } = require('src/utils/encrypter/encrypter')
